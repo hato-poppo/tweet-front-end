@@ -44,13 +44,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from '@vue/composition-api'; // NOTE: 書き換え
 
-export default Vue.extend({
-  name: 'App',
-
-  data: () => ({
-    //
-  }),
+// NOTE: 全体的に書き換え
+export default defineComponent({
+  setup: () => {
+    // 必要であれば処理を追記
+  },
 });
 </script>
