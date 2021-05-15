@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    volumes:
+      - .:/usr/src/app:cached
+    tty: true
+    stdin_open: true
+    # command: /bin/sh
+    expose: ["8080"]
+    ports: ["8080:8080"]
