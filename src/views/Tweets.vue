@@ -3,32 +3,7 @@
     <v-container>
       <v-row v-for='tweet in tweets.items.value' v-bind:key="tweet.id">
         <v-col>
-          <v-card
-            class="mx-auto"
-            color="success"
-            dark
-            max-width="400"
-          >
-            <v-card-title>
-              <v-avatar color="grey darken-3 mr-2">
-                <v-img
-                  class="elevation-6"
-                  alt="ME"
-                  src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-                ></v-img>
-              </v-avatar>
-              {{ tweet.user_account_name }}
-            </v-card-title>
-
-            <v-card-subtitle justify="end">
-              @{{ tweet.user_name }}・{{ tweet.created_at }}
-            </v-card-subtitle>
-
-            <v-card-text class="headline font-weight-bold white--text">
-              {{ tweet.content }}
-            </v-card-text>
-
-          </v-card>
+          <tweet-card :tweet="tweet" />
         </v-col>
       </v-row>
     <v-dialog
@@ -88,6 +63,7 @@ import {
   defineComponent, ref, reactive, onMounted,
 } from '@vue/composition-api';
 import axios from 'axios';
+import TweetCard, { Tweet } from '@/components/tweets/TweetCard.vue';
 
 const getTweets = () => {
   const items: any = ref([]);
@@ -105,6 +81,9 @@ const getTweets = () => {
 };
 
 export default defineComponent({
+  components: {
+    'tweet-card': TweetCard,
+  },
   setup: () => {
     const tweets = getTweets();
     const postContent = reactive({
