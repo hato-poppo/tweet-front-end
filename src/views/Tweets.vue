@@ -6,42 +6,42 @@
           <tweet-card :tweet="tweet" />
         </v-col>
       </v-row>
-    <v-dialog
-      v-model="dialog"
-      width="500"
-    >
-      <v-card>
-        <v-card-title class="primary white--text" dark>
-          Input window
-        </v-card-title>
+      <v-dialog
+        v-model="dialog"
+        width="500"
+      >
+        <v-card>
+          <v-card-title class="primary white--text" dark>
+            Input window
+          </v-card-title>
 
-        <v-card-text class="pa-5">
-          <v-textarea
-            v-model="postContent.inputValue"
-            label="Please input content."
-            hide-details
-          ></v-textarea>
-        </v-card-text>
+          <v-card-text class="pa-5">
+            <v-textarea
+              v-model="postContent.inputValue"
+              label="Please input content."
+              hide-details
+            ></v-textarea>
+          </v-card-text>
 
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="closeDialog()"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            color="primary"
-            elevation="0"
-            @click="postTweet()"
-          >
-            Tweet
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              @click="closeDialog()"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              color="primary"
+              elevation="0"
+              @click="postTweet()"
+            >
+              Tweet
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
     <v-btn
       class="tweet-button"
@@ -72,6 +72,9 @@ const getTweets = () => {
       items.value = res.data;
     });
   };
+  // const getItems = async () => {
+  //   items.value = await axios.get<Tweet[]>('http://192.168.10.8:3000/tweets');
+  // };
   onMounted(() => {
     getItems();
   });
