@@ -28,7 +28,7 @@ https://vuetifyjs.com/ja/getting-started/installation/
 ### AXIOS
 
 APIとの通信に使用する  
-公式がこれ使えって言ってたはず
+[公式ドキュメント](https://vuejs.org/v2/cookbook/using-axios-to-consume-apis.html) に記載あり
 
 ### Composition API
 
@@ -224,3 +224,11 @@ https://nogson2.hatenablog.com/entry/2018/11/30/103808
 ページを追加
 親コンポーネント、子コンポーネントを作成
 APIとの通信を確認
+
+
+
+## その他
+
+### Vue.js のドキュメントについて
+
+日本語訳されているドキュメントがあるが、情報が古いことがあるので英語のドキュメント読んだ方が良い

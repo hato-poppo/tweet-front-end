@@ -7,6 +7,11 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
+    name: 'Tweets',
+    component: () => import(/* webpackChunkName: "tweets" */ '@/views/Tweets.vue'),
+  },
+  {
+    path: '/home',
     name: 'Home',
     // App.vue のバンドルファイル（app.js）に含まれる
     component: Home,
