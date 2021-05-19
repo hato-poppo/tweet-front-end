@@ -103,10 +103,6 @@ export default defineComponent({
       tweets.items.value.unshift(tweet.data);
       dialog.value = false;
     };
-    const openEditDialog = (tweet: any) => {
-      postContent.inputValue = tweet.content;
-      dialog.value = true;
-    };
     return {
       tweets,
       dialog,
@@ -114,7 +110,6 @@ export default defineComponent({
       closeDialog,
       postContent,
       postTweet,
-      openEditDialog,
     };
   },
 });
