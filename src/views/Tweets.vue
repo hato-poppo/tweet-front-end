@@ -7,7 +7,7 @@
         </v-col>
       </v-row>
       <v-dialog
-        v-model="dialog"
+        v-model="dialog.show"
         width="500"
       >
         <v-card>
@@ -17,7 +17,7 @@
 
           <v-card-text class="pa-5">
             <v-textarea
-              v-model="postContent.inputValue"
+              v-model="content"
               label="Please input content."
               hide-details
             ></v-textarea>
@@ -28,14 +28,14 @@
             <v-btn
               color="primary"
               text
-              @click="closeDialog()"
+              @click="dialog.close()"
             >
               Cancel
             </v-btn>
             <v-btn
               color="primary"
               elevation="0"
-              @click="postTweet()"
+              @click="postTweet(content)"
             >
               Tweet
             </v-btn>
@@ -49,7 +49,7 @@
       dark
       large
       color="primary"
-      @click="openDialog()"
+      @click="dialog.open()"
     >
       <v-icon dark>
         mdi-pencil-plus
@@ -89,29 +89,53 @@ export default defineComponent({
   },
   setup: () => {
     const tweets = getTweets();
-    const postContent = reactive({
-      inputValue: '' as string,
+    const content = ref<string>('');
+
+    // よくあるやりかた
+    // const dialog = ref<boolean>(false);
+    // const openDialog = () => {
+    //   postContent.inputValue = '';
+    //   dialog.value = true;
+    // };
+    // const closeDialog = () => {
+    //   dialog.value = false;
+    // };
+
+    // うまくいく
+    const dialog = reactive({
+      show: false,
+      open: () => {
+        content.value = '';
+        dialog.show = true;
+      },
+      close: () => {
+        dialog.show = false;
+      },
     });
-    const dialog = ref<boolean>(false);
-    const openDialog = () => {
-      postContent.inputValue = '';
-      dialog.value = true;
-    };
-    const closeDialog = () => {
-      dialog.value = false;
-    };
-    const postTweet = async () => {
-      const params = { user_id: 1, content: postContent.inputValue };
+
+    // 上手くいかない（初期値がtrueになる）
+    // const dialog = {
+    //   show: ref<boolean>(false),
+    //   open: () => {
+    //     postContent.inputValue = '';
+    //     dialog.show.value = true;
+    //   },
+    //   close: () => {
+    //     dialog.show.value = false;
+    //   },
+    // };
+
+    const postTweet = async (text: string) => {
+      const params = { user_id: 1, content: text };
       const tweet = await axios.post('http://192.168.10.8:3000/tweets', params);
       tweets.items.value.unshift(tweet.data);
-      dialog.value = false;
+      dialog.close();
     };
+
     return {
       tweets,
       dialog,
-      openDialog,
-      closeDialog,
-      postContent,
+      content,
       postTweet,
     };
   },
