@@ -39,19 +39,9 @@ export type Tweet = {
   updated_at: Date,
 }
 
-type Props = {
-  tweet: Tweet,
-}
-
 export default defineComponent({
   props: {
     tweet: Object as PropType<Tweet>,
-  },
-  setup: (props: Props) => {
-    const tweet = props.tweet;
-    return {
-      tweet,
-    };
   },
 });
 </script>
