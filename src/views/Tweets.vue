@@ -1,47 +1,12 @@
 <template>
   <div>
     <v-container>
-      <v-row v-for='tweet in tweets.items.value' v-bind:key="tweet.id">
+      <v-row v-for='tweet in tweets.value' v-bind:key="tweet.id">
         <v-col>
           <tweet-card :tweet="tweet" />
         </v-col>
       </v-row>
-      <v-dialog
-        v-model="dialog.show"
-        width="500"
-      >
-        <v-card>
-          <v-card-title class="primary white--text" dark>
-            Input window
-          </v-card-title>
-
-          <v-card-text class="pa-5">
-            <v-textarea
-              v-model="content"
-              label="Please input content."
-              hide-details
-            ></v-textarea>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              text
-              @click="dialog.close()"
-            >
-              Cancel
-            </v-btn>
-            <v-btn
-              color="primary"
-              elevation="0"
-              @click="postTweet(content)"
-            >
-              Tweet
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <post-dialog v-model="dialog.show" @onPostHandler="unshift" />
     </v-container>
     <v-btn
       class="tweet-button"
@@ -64,32 +29,39 @@ import {
 } from '@vue/composition-api';
 import axios from 'axios';
 import TweetCard, { Tweet } from '@/components/tweets/TweetCard.vue';
+import PostDialog from '@/components/tweets/PostDialog.vue';
 
-const getTweets = () => {
-  const items: any = ref([]);
-  const getItems = () => {
-    axios.get('http://192.168.10.8:3000/tweets').then((res) => {
-      items.value = res.data;
-    });
+const requests = () => {
+  const ipAddress = '192.168.10.8';
+  const tweets = reactive({
+    value: [] as Tweet[],
+  });
+  const getTweets = async () => {
+    tweets.value = (await axios.get<Tweet[]>(`http://${ipAddress}:3000/tweets`))?.data;
   };
-  // const getItems = async () => {
-  //   items.value = await axios.get<Tweet[]>('http://192.168.10.8:3000/tweets');
+  // const postTweet = async (text: string) => {
+  //   const params = { user_id: 1, content: text };
+  //   const reqponse = await axios.post<Tweet>(`http://${ipAddress}:3000/tweets`, params);
+  //   tweets.value.unshift(reqponse.data);
   // };
   onMounted(() => {
-    getItems();
+    getTweets();
   });
   return {
-    items,
+    tweets,
+    // getTweets,
+    // postTweet,
   };
 };
 
 export default defineComponent({
   components: {
     'tweet-card': TweetCard,
+    'post-dialog': PostDialog,
   },
   setup: () => {
-    const tweets = getTweets();
-    const content = ref<string>('');
+    const req = requests();
+    // const content = ref<string>('');
 
     // よくあるやりかた
     // const dialog = ref<boolean>(false);
@@ -105,7 +77,7 @@ export default defineComponent({
     const dialog = reactive({
       show: false,
       open: () => {
-        content.value = '';
+        // content.value = '';
         dialog.show = true;
       },
       close: () => {
@@ -125,18 +97,14 @@ export default defineComponent({
     //   },
     // };
 
-    const postTweet = async (text: string) => {
-      const params = { user_id: 1, content: text };
-      const tweet = await axios.post('http://192.168.10.8:3000/tweets', params);
-      tweets.items.value.unshift(tweet.data);
-      dialog.close();
+    const unshift = (tweet: Tweet) => {
+      req.tweets.value.unshift(tweet);
     };
 
     return {
-      tweets,
+      tweets: req.tweets,
       dialog,
-      content,
-      postTweet,
+      unshift,
     };
   },
 });
