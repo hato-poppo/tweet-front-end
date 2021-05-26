@@ -26,7 +26,7 @@
         <v-btn
           color="primary"
           elevation="0"
-          @click="postTweet(content)"
+          @click="post(content)"
         >
           Tweet
         </v-btn>
@@ -39,15 +39,11 @@
 import {
   defineComponent, ref, watch, watchEffect,
 } from '@vue/composition-api';
-import axios from 'axios';
+import { tweetRequest } from '@/scripts/requests/Tweet';
 
 type Props = {
   value: boolean,
 }
-
-let netWork = '';
-netWork = 'home';
-const ipAddress = netWork === 'home' ? '192.168.10.8' : '10.74.64.131';
 
 export default defineComponent({
   props: {
@@ -91,9 +87,9 @@ export default defineComponent({
     // 1. 子コンポーネント側でデータを登録し、登録後のデータを親コンポーネントに渡す
     // 2. 親コンポーネントでデータ登録用の処理を宣言し、子コンポーネントで受け取る
     // 1の方が子コンポーネントの独立性が高くなる。
-    const postTweet = async (text: string) => {
+    const post = async (text: string) => {
       const params = { user_id: 1, content: text };
-      const response = await axios.post(`http://${ipAddress}:3000/tweets`, params);
+      const response = await tweetRequest().create(params);
       context.emit('onPostHandler', response.data);
       close();
     };
@@ -101,7 +97,7 @@ export default defineComponent({
       show,
       close,
       content,
-      postTweet,
+      post,
     };
   },
 });

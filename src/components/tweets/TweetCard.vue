@@ -28,16 +28,7 @@
 import {
   defineComponent, PropType,
 } from '@vue/composition-api';
-
-export type Tweet = {
-  id: number,
-  user_id: number,
-  user_name: string,
-  user_account_name: string,
-  content: string,
-  created_at: Date,
-  updated_at: Date,
-}
+import { Tweet } from '@/scripts/requests/Tweet';
 
 export default defineComponent({
   props: {

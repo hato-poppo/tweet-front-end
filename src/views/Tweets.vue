@@ -27,30 +27,19 @@
 import {
   defineComponent, ref, reactive, onMounted,
 } from '@vue/composition-api';
-import axios from 'axios';
-import TweetCard, { Tweet } from '@/components/tweets/TweetCard.vue';
+import { tweetRequest, Tweet } from '@/scripts/requests/Tweet';
+import TweetCard from '@/components/tweets/TweetCard.vue';
 import PostDialog from '@/components/tweets/PostDialog.vue';
 
 const requests = () => {
-  const ipAddress = '192.168.10.8';
   const tweets = reactive({
     value: [] as Tweet[],
   });
-  const getTweets = async () => {
-    tweets.value = (await axios.get<Tweet[]>(`http://${ipAddress}:3000/tweets`))?.data;
-  };
-  // const postTweet = async (text: string) => {
-  //   const params = { user_id: 1, content: text };
-  //   const reqponse = await axios.post<Tweet>(`http://${ipAddress}:3000/tweets`, params);
-  //   tweets.value.unshift(reqponse.data);
-  // };
-  onMounted(() => {
-    getTweets();
+  onMounted(async () => {
+    tweets.value = (await tweetRequest().index())?.data;
   });
   return {
     tweets,
-    // getTweets,
-    // postTweet,
   };
 };
 
@@ -61,7 +50,6 @@ export default defineComponent({
   },
   setup: () => {
     const req = requests();
-    // const content = ref<string>('');
 
     // よくあるやりかた
     // const dialog = ref<boolean>(false);
