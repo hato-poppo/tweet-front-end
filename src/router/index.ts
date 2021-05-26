@@ -5,7 +5,7 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
-    path: '/',
+    path: '/tweets',
     name: 'Tweets',
     component: () => import(/* webpackChunkName: "tweets" */ '@/views/Tweets.vue'),
   },
