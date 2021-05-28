@@ -6,7 +6,7 @@
           <tweet-card :tweet="tweet" />
         </v-col>
       </v-row>
-      <post-dialog v-model="dialog.show" @onPostHandler="unshift" />
+      <post-dialog v-model="dialog.show" @onPostHandler="onPost" />
     </v-container>
     <v-btn
       class="tweet-button"
@@ -20,12 +20,22 @@
         mdi-pencil-plus
       </v-icon>
     </v-btn>
+    <v-snackbar
+      v-model="snackbar.show"
+      :timeout="3000"
+      color="success"
+      top
+      right
+      text
+    >
+      Posted successfully
+    </v-snackbar>
   </div>
 </template>
 
 <script lang="ts">
 import {
-  defineComponent, ref, reactive, onMounted,
+  defineComponent, ref, reactive, onMounted, watch,
 } from '@vue/composition-api';
 import { tweetRequest, Tweet } from '@/scripts/requests/Tweet';
 import TweetCard from '@/components/tweets/TweetCard.vue';
@@ -65,7 +75,6 @@ export default defineComponent({
     const dialog = reactive({
       show: false,
       open: () => {
-        // content.value = '';
         dialog.show = true;
       },
       close: () => {
@@ -85,14 +94,23 @@ export default defineComponent({
     //   },
     // };
 
-    const unshift = (tweet: Tweet) => {
+    const snackbar = reactive({
+      show: false,
+      open: () => {
+        snackbar.show = true;
+      },
+    });
+
+    const onPost = (tweet: Tweet) => {
       req.tweets.value.unshift(tweet);
+      snackbar.open();
     };
 
     return {
       tweets: req.tweets,
       dialog,
-      unshift,
+      onPost,
+      snackbar,
     };
   },
 });
