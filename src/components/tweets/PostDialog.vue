@@ -68,7 +68,7 @@ export default defineComponent({
     // https://qiita.com/doz13189/items/d09cfc6e1ff38621c2cc
 
     // 親コンポーネントでの変化を子コンポーネントに反映させる為にこの宣言が必要になる
-    watch(() => props.value, (newVal, oldVal) => {
+    watch(() => props.value, (newVal, _) => {
       // console.log(`${oldVal} -> ${newVal}`);
       show.value = newVal;
     });
@@ -78,7 +78,7 @@ export default defineComponent({
     // });
 
     // 子コンポーネントでの変化を親コンポーネントに反映させる為にこの宣言が必要になる
-    watch(() => show.value, (newVal, oldVal) => {
+    watch(() => show.value, (newVal, _) => {
       // console.log(`${oldVal} -> ${newVal}`);
       context.emit('input', newVal);
     });
