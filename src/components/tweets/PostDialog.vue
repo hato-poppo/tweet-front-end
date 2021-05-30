@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import {
-  defineComponent, ref, watch, watchEffect,
+  defineComponent, ref, watch,
 } from '@vue/composition-api';
 import { tweetRequest } from '@/scripts/requests/Tweet';
 

@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import {
-  defineComponent, ref, reactive, onMounted, watch,
+  defineComponent, reactive, onMounted,
 } from '@vue/composition-api';
 import { tweetRequest, Tweet } from '@/scripts/requests/Tweet';
 import TweetCard from '@/components/tweets/TweetCard.vue';
