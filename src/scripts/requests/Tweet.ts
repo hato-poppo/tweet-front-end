@@ -26,5 +26,3 @@ export const tweetRequest = () => {
     destroy,
   };
 };
-
-// https://qiita.com/NeGI1009/items/a98c6a76b0c4f3bc18b3
